@@ -21,20 +21,20 @@ def predict_risk(input_data):
     # Apply feature engineering
     df = create_features(df)
 
-    # Predict probability
-    probability = (
+    # Probability of BAD loan
+    probability_bad = (
         pipeline
-        .predict_proba(df)[0][1]
+        .predict_proba(df)[0][0]
     )
 
     # Decision threshold
     decision = (
         "reject"
-        if probability > 0.45
+        if probability_bad > 0.45
         else "approve"
     )
 
     return {
-        "probability_bad": float(probability),
+        "probability_bad": float(probability_bad),
         "decision": decision
     }

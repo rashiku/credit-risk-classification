@@ -1,5 +1,9 @@
 import pandas as pd
 
+# Fixed thresholds from training data
+CREDIT_THRESHOLD = 5000
+DURATION_THRESHOLD = 36
+
 def create_features(df):
 
     # Credit burden
@@ -39,22 +43,12 @@ def create_features(df):
     )
 
     # Binary features
-    credit_threshold = (
-        df["Credit amount"]
-        .quantile(0.75)
-    )
-
-    duration_threshold = (
-        df["Duration"]
-        .quantile(0.75)
-    )
-
     df["High_Credit"] = (
-        df["Credit amount"] > credit_threshold
+        df["Credit amount"] > CREDIT_THRESHOLD
     ).astype(int)
 
     df["Long_Duration"] = (
-        df["Duration"] > duration_threshold
+        df["Duration"] > DURATION_THRESHOLD
     ).astype(int)
 
     return df
