@@ -68,12 +68,29 @@ credit-risk-classification/
 
 ![Confusion Matrix](images/confusion_matrices_all_models.png)
 
-## Future Improvements
+## Run Streamlit App
 
-- FastAPI deployment
-- Streamlit dashboard
-- SHAP explainability
-- Docker containerization
+```bash
+streamlit run app/streamlit_app.py
+```
+
+## Run FastAPI Server
+
+```bash
+uvicorn app.api:app --reload
+```
+
+
+## Features
+
+- Modular ML pipeline
+- XGBoost classifier
+- Streamlit deployment
+- FastAPI inference API
+- Automated evaluation pipeline
+- Feature engineering
+- Threshold optimization
+- Docker support
 
 ## Author
 
