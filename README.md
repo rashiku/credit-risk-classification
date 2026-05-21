@@ -62,11 +62,11 @@ credit-risk-classification/
 
 ### ROC Curve
 
-![ROC Curve](images/roc_curve.png)
+![ROC Curve](images/roc_curves.png)
 
 ### Confusion Matrix
 
-![Confusion Matrix](images/confusion_matrix.png)
+![Confusion Matrix](images/confusion_matrices.png)
 
 ## Future Improvements
 
