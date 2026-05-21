@@ -1,5 +1,6 @@
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
+from sklearn.calibration import CalibratedClassifierCV
 from xgboost import XGBClassifier
 import joblib
 
@@ -15,7 +16,6 @@ df = create_features(df)
 
 # Split
 X = df.drop("Risk", axis=1)
-
 y = df["Risk"]
 
 # Encode target
@@ -34,7 +34,6 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 # Columns
 categorical_cols = X.select_dtypes(include=["object"]).columns.tolist()
-
 numerical_cols = X.select_dtypes(exclude=["object"]).columns.tolist()
 
 # Preprocessor
@@ -43,7 +42,7 @@ preprocessor = build_preprocessor(
     numerical_cols
 )
 
-# Model
+# Base model
 model = XGBClassifier(
     n_estimators=200,
     max_depth=4,
@@ -54,17 +53,24 @@ model = XGBClassifier(
     random_state=42
 )
 
-# Full pipeline
+# Pipeline
 pipeline = Pipeline([
     ("preprocessor", preprocessor),
     ("model", model)
 ])
 
-# Train
-pipeline.fit(X_train, y_train)
+# Calibrated model
+calibrated_pipeline = CalibratedClassifierCV(
+    estimator=pipeline,
+    method="sigmoid",   # safer for smaller datasets
+    cv=5
+)
 
-# Save
+# Train calibrated pipeline
+calibrated_pipeline.fit(X_train, y_train)
+
+# Save calibrated model
 joblib.dump(
-    pipeline,
+    calibrated_pipeline,
     "models/xgboost_pipeline.pkl"
 )
